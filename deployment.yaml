@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firstproject
+  namespace: default
+  labels:
+    app: firstproject
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: firstproject
+  template:
+    metadata:
+      labels:
+        app: firstproject
+    spec:
+      containers:
+        - name: firstproject
+          image: serifee/flask-app
+          ports:
+            - containerPort: 3030
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: firstproject
+  namespace: default
+spec:
+  selector:
+    app: firstproject
+  ports:
+    - protocol: TCP
+      port: 3030
+      targetPort: 3030
+  type: LoadBalancer
